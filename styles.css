@@ -1,0 +1,1389 @@
+@import "tailwindcss";
+
+/* Body Background Styling */
+body {
+  background-image: url('/assets/backgroundss.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.3);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Optional Fade-out */
+body.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+
+
+/* Ensure labels sit above canvas and never capture pointer events */
+.ring-label {
+  position: absolute;
+  pointer-events: none;
+  z-index: 10001;
+  transform: translate(-50%, -50%);
+}
+
+.stats-label {
+  font-size: 0.9rem;
+}
+.stat-value {
+  font-size: 0.85rem;
+}
+#profitTankLabel {
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .stats-label, .stat-value {
+    font-size: 0.8rem;
+  }
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 20px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider.round {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0;
+  right: 0; bottom: 0;
+  background-color: #ccc;
+  border-radius: 20px;
+  transition: 0.4s;
+}
+
+.slider.round:before {
+  position: absolute;
+  content: "";
+  height: 14px; width: 14px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  border-radius: 50%;
+  transition: 0.4s;
+}
+
+input:checked + .slider.round {
+  background-color: #00d1b2;
+}
+input:checked + .slider.round:before {
+  transform: translateX(18px);
+}
+
+.slider-card {
+  background-color: #2a150a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+/* === Toggle Stats Switch === */
+#toggleStatsContainer {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+#toggleStatsContainer input[type="checkbox"] {
+  width: 40px;
+  height: 20px;
+  background-color: #4CAF50;
+  border-radius: 50px;
+  appearance: none;
+  outline: none;
+  position: relative;
+  transition: 0.4s;
+}
+
+#toggleStatsContainer input[type="checkbox"]:before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 1px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background-color: white;
+  transition: transform 0.4s ease;
+}
+
+#toggleStatsContainer input[type="checkbox"]:checked {
+  background-color: #f97316;
+}
+
+#toggleStatsContainer input[type="checkbox"]:checked:before {
+  transform: translateX(20px);
+}
+
+.fade-slide-up {
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-slide-up.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* Step circle */
+.final-stepper .step-circle {
+  background-color: #49E6E5 !important;
+  color: black !important;
+  border: none !important;
+}
+
+/* Step label */
+.final-stepper .step-label {
+  color: white !important;
+}
+
+/* === Step Tracker === */
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  color: white;
+}
+
+.step-number {
+  background-color: #f97316;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 16px;
+  margin-bottom: 5px;
+  opacity: 0.4;
+}
+
+.step.active-step .step-number {
+  background-color: #FF6A00;
+  opacity: 1;
+}
+
+
+/* 💠 Final “rec-phase” stepper styles */
+.stepper.rec-phase .active-step .step-number {
+  background-color: #49E6E5;
+  color: rgb(251, 251, 251);
+}
+
+
+#step-tracker {
+  margin-bottom: 2rem; /* tweak as needed: 2rem = 32px */
+}
+
+
+/* ✅ “Now” label stays white */
+#recommendation-card-container span.text-sm.text-white {
+  color: white;
+}
+
+/* 🔴 “Suggested” label stays red */
+#recommendation-card-container span.text-sm.text {
+  color: #49E6E5;
+}
+
+
+
+/* 🔘 INACTIVE Step Circles */
+.stepper.rec-phase .step:not(.active-step) .step-number {
+  background-color: #768879;
+  color: #fefefeee;
+  border: 0px solid #ffffff; /* Optional subtle ring */
+}
+
+
+/* Deal Sphere Animation */
+@keyframes pulseSize {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+  }
+}
+
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+  pointer-events: auto !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.comparison-metrics {
+  transition: max-height 0.5s ease-in-out;
+  overflow: hidden;
+}
+canvas#threejs-canvas {
+  background-color: transparent !important;
+}
+
+
+.ring-label {
+  position: absolute;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  pointer-events: none;
+  text-shadow: 0 0 5px #000;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+}
+.ring-label {
+  position: absolute;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  pointer-events: none;
+  white-space: nowrap;
+  z-index: 1000;
+  text-shadow: 0 0 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Rounded Toggle Switch */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 32px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.ring-label {
+  z-index: 20;
+  pointer-events: none;
+  user-select: none;
+  /* already have position absolute */
+}
+
+
+/* The pill background */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #999;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+/* The circle thumb */
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+/* Center the entire recommendation section vertically */
+#final-recommendation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  min-height: auto; /* enough height for vertical centering */
+}
+
+/* Make the lifted metrics grids 30% bigger */
+#final-recommendation .details .grid {
+  transform: scale(1.3);
+  transform-origin: center;
+  transition: transform 0.3s ease-in-out;
+  margin: 1rem 0;
+}
+
+/* Keep each metric cell steady */
+#final-recommendation .details .grid > div {
+  min-height: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Make the metric numbers pop */
+#final-recommendation .details .grid .text-2xl {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+/* Match final page stepper colors to recommendation header blue */
+#final-page .stepper,
+#final-page .stepper .step,
+#final-page .stepper .step.active,
+#final-page .stepper .step.completed {
+  background-color: #007BFF !important; /* blue */
+  border-color: #007BFF !important;
+  color: #fff !important;
+}
+
+/* Optional hover state for clickable steps */
+#final-page .stepper .step:hover {
+  background-color: #0069d9 !important; /* darker blue on hover */
+  border-color: #0062cc !important;
+}
+
+/* Final Page stepper active color */
+#final-page .active-step .step-number {
+  background-color: #49E6E5 !important;
+  color: #ffffff !important; /* text inside the circle */
+  opacity: 1 !important;
+}
+
+
+
+/* Final page inactive steps — match rec-phase inactive style */
+#final-page .step:not(.active-step) .step-number {
+  background-color: #768879 !important;  /* gray background like rec-phase */
+  color: #fefefeee !important;           /* text color like rec-phase */
+  border: 0px solid #ffffff !important;  /* remove the subtle ring */
+  opacity: 0.3 !important;                 /* same as rec-phase, optional */
+}
+
+
+
+/* Subtle panel tweak (optional — keeps your exact color but ensures contrast) */
+#recommendationLightbox > div {
+  background-color: rgba(11,11,10,0.88); /* slightly darker overlay for depth, tweak if needed */
+  border: 1px solid rgba(255,255,255,0.03);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+
+#recommendationLightbox > div {
+  width: 90%;
+  max-width:900px;   /* cap width */
+  border-radius: 1rem;
+}
+
+
+
+/* -------------------------
+   Close button (targets your existing button with inline onclick)
+   ------------------------- */
+#recommendationLightbox button[onclick="closeRecommendationLightbox()"] {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;                       /* soft pill */
+  background: rgba(255,255,255,0.03);        /* subtle translucent */
+  color: rgba(255,255,255,0.85);
+  border: 1px solid rgba(255,255,255,0.06);
+  font-size: 20px;                           /* keeps the &times; readable */
+  line-height: 1;
+  transition: transform .12s ease, background .12s ease, color .12s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+}
+#recommendationLightbox button[onclick="closeRecommendationLightbox()"]:hover {
+  transform: translateY(-2px);
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+}
+#recommendationLightbox button[onclick="closeRecommendationLightbox()"]:active {
+  transform: translateY(0);
+}
+
+/* Prevent outer lightbox from scrolling */
+#recommendationLightbox {
+  overflow: hidden;  /* Prevent the outer container from scrolling */
+}
+
+/* Content inside the lightbox should scroll if needed */
+#recommendationLightboxContent {
+  overflow-y: auto;  /* Allow scrolling only inside this container */
+  max-height: 80vh;   /* Limit the height to 80% of the viewport height */
+  padding-right: 20px; /* Prevent content from touching the scrollbar */
+  padding-bottom: 16px; /* Optional: Adds space at the bottom to avoid content cut-off */
+}
+
+/* Image inside the content area */
+#recommendationLightboxContent img {
+  width: 100%;          /* Make image stretch the full width */
+  height: 240px;        /* Or use h-64 equivalent in px/vh */
+  object-fit: cover;    /* Fill the space, crop if needed */
+  margin-bottom: 16px;  /* Optional: adjust as needed */
+ border-radius: 1rem 1rem 0 0; /* round top-left & top-right corners */
+
+}
+
+/* Firefox */
+#recommendationLightboxContent {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,0.12) rgba(255,255,255,0.02);
+}
+
+/* WebKit browsers */
+#recommendationLightboxContent::-webkit-scrollbar {
+  width: 10px;
+}
+#recommendationLightboxContent::-webkit-scrollbar-track {
+  background: rgba(255,255,255,0.02); /* very subtle track */
+  border-radius: 999px;
+}
+#recommendationLightboxContent::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.12); /* light thumb to echo the ref */
+  border-radius: 999px;
+  border: 2px solid rgba(255,255,255,0.02); /* pill effect */
+  background-clip: padding-box;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12);
+}
+#recommendationLightboxContent::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* small responsive adjustment so scrollbar doesn't crowd mobile view */
+@media (max-width: 640px) {
+  #recommendationLightboxContent::-webkit-scrollbar { width: 8px; }
+  #recommendationLightbox > div { padding: 12px; }
+
+  /* Force the lightbox above the visualizer */
+#recommendationLightbox,
+#recommendationLightbox > div,
+#recommendationLightbox * {
+  position: relative !important;
+  z-index: 9980001 !important;   /* higher than visualizer (9999) */
+  pointer-events: auto !important;
+}
+/* Make lightbox truly above the visualizer */
+#recommendationLightbox,
+#recommendationLightbox > div {
+  position: fixed !important;  /* fixed so it floats above everything */
+  top: 50%;                   /* center vertically */
+  left: 50%;                  /* center horizontally */
+  transform: translate(-50%, -50%); /* perfect centering */
+  z-index: 777777777 !important; /* higher than visualizer */
+  pointer-events: auto !important;
+}
+
+
+}/* Adjust the sign itself for better centering */
+
+
+
+
+.metric-sign {
+  position: absolute;
+  left: -0.9rem;               /* tweak this if you want sign closer/further */
+  top: 50%;                     /* Center the sign vertically */
+  transform: translateY(-50%);  /* Perfect centering */
+  font-size: 0.65em;            /* smaller, subtle sign */
+  line-height: 1;
+  opacity: 0.9;
+  pointer-events: none;
+}
+
+/* Container for single metric that might have a sign */
+.metric-with-sign {
+  position: relative;          /* anchor for absolute sign */
+  display: inline-block;       /* avoid full-width block behavior */
+  vertical-align: middle;      /* Ensure alignment within the line */
+}
+
+/* Keep the main number normal flow */
+.metric-number {
+  display: inline-block;
+  vertical-align: middle;      /* Ensure the number is aligned in the middle of the line */
+}
+
+/* Smaller font size for the sign */
+.metric-sign {
+  font-size: 0.8em;            /* smaller than the main stat */
+  vertical-align: middle;         /* align nicely */
+  margin-right: 2px;           /* small gap from number */
+  opacity: 0.8;                /* subtle */
+}
+
+/* On state */
+input:checked + .slider {
+  background-color: #00cfc8;
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+
+#recommendationLightboxContent {
+  overflow-y: auto;
+  max-height: 80vh; /* ✅ keeps it from overflowing vertically */
+  padding: 20px;
+}
+
+
+
+    /* 🔥 Fullscreen video */
+    .video-bg-container {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      overflow: hidden;
+    }.video-bg-container {
+  position: fixed;
+  inset: 0;               /* top:0; right:0; bottom:0; left:0; */
+  z-index: -1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 50px;          /* padding around edges, adjust as needed */
+}
+
+.video-bg-container video {
+  max-width: calc(100vw - 100px);  /* account for horizontal padding */
+  max-height: calc(100vh - 100px); /* account for vertical padding */
+  width: auto;
+  height: auto;
+  object-fit: contain;     /* ensures video fits without cropping */
+  display: block;
+  transform: translate(0, 0);
+}
+
+
+
+.rec-step.active-step {
+  color: #22d3ee; /* cyan-400 */
+  font-weight: bold;
+}
+.rec-step .step-number {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  background-color: #22d3ee;
+  color: black;
+  font-size: 0.875rem;
+  font-weight: bold;
+  border-radius: 9999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 0.5rem;
+}
+ 
+
+.fade-in {
+  transition: opacity 0.5s ease-in-out;
+  opacity: 1;
+}
+
+#threejs-canvas {
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out;
+}
+
+
+
+/* Container for toggle */
+.stats-toggle-container {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+  pointer-events: auto;
+  user-select: none;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 6px 12px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* Hide actual checkbox */
+.stats-toggle-container input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+/* The toggle pill background */
+.stats-toggle-container .slider {
+  width: 40px;
+  height: 22px;
+  background-color: #ffffff;
+  border-radius: 9999px;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* The circle thumb */
+.stats-toggle-container .slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  top: 2px;
+  background-color: #333;
+  border-radius: 50%;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+/* When toggled ON */
+.stats-toggle-container input[type="checkbox"]:checked + .slider {
+  background-color: #fb923c; /* orange on */
+}
+
+stats-toggle-container input[type="checkbox"]:checked + .slider::before {
+  transform: translateX(18px);
+  background-color: white;
+}
+
+/* Label text */
+stats-toggle-container label {
+  cursor: pointer;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+#statsToggleWrapper {
+  display: none; /* hide toggle by default */
+}
+
+#statsToggleWrapper {
+  position: fixed; /* float above all sections */
+  bottom: 20px;
+  right: 20px;
+  z-index: 10;
+}
+
+#statsToggleWrapper {
+  transition: opacity 180ms ease, transform 200ms ease;
+  opacity: 0;
+  display: none; /* JS will set to flex when needed */
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  pointer-events: auto !important;
+}
+
+
+
+/* === Scoped mobile scaling for lifted recommendation metrics ===
+   Targets only the metrics rendered inside the recommendation card
+   (IDs start with #rec-... and the grid lives under #recommendation-card-container).
+   Paste this at the end of your main CSS so it overrides Tailwind utilities. */
+@media (max-width: 768px) {
+  /* make the 5-column metric grid collapse to 2 columns on phones */
+  #recommendation-card-container .grid.grid-cols-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem; /* slightly tighter */
+    align-items: center;
+  }
+
+  /* scale down the big metric number block, but keep weight */
+  #recommendation-card-container .metric-with-sign {
+    font-size: 1.25rem !important;    /* override text-3xl */
+    line-height: 1.05;
+    display: inline-block;
+    white-space: nowrap;
+    transform-origin: center;
+  }
+
+  /* ensure the numeric span is the same reduced size */
+  #recommendation-card-container .metric-with-sign .metric-number {
+    font-size: 1.25rem !important;
+  }
+
+  /* nudge the sign so it doesn't overlap at smaller sizes */
+  #recommendation-card-container .metric-with-sign .metric-sign {
+    left: -0.6rem;
+    font-size: 0.85em;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.95;
+  }
+
+  /* shrink the label text under each metric */
+  #recommendation-card-container .grid.grid-cols-5 > div .text-xs,
+  #recommendation-card-container .grid.grid-cols-5 > div .text-sm {
+    font-size: 11px !important;
+    margin-bottom: 0.15rem;
+    opacity: 0.85;
+  }
+
+  /* slightly reduce the outer spacing of the metrics block */
+  #recommendation-card-container .grid.grid-cols-5 {
+    margin-bottom: 0.5rem;
+  }
+}
+
+/* Smaller metric numbers */
+.metric-with-sign .metric-number {
+  font-size: 1.7rem; /* ~text-xl */
+}
+
+/* Smaller plus/minus sign */
+.metric-with-sign .metric-sign {
+  font-size: 1.5rem;
+ 
+}
+
+/* Ensure profit/cost tank labels don't use absolute sign overlay */
+#profitTankLabel .metric-sign,
+#costTankLabel .metric-sign {
+  position: static !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
+  margin-right: 4px;
+  display: inline-block;
+}
+
+/* Keep profit/cost numbers on one line next to their sign */
+#profitStat,
+#costStat {
+  white-space: nowrap !important;
+  display: inline-block;
+}
+
+
+/* Make sections appear above the stats toggle button visually */
+#lead-capture,
+#revenue,
+#event-costs,
+#review {
+  position: relative !important;  /* keep normal flow */
+  z-index: 1 !important;          /* behind button */
+}
+
+/* Keep sections scrollable and interactive */
+#lead-capture *,
+#revenue *,
+#event-costs *,
+#review * {
+  pointer-events: auto !important;
+}
+
+
+
+
+/* Final page card responsiveness */
+#final-page .card-content {
+  font-size: 1rem; /* default desktop */
+  padding: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  #final-page .card-content {
+    font-size: 0.9rem;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  #final-page .card-content {
+    font-size: 0.4rem;
+    padding: 0.75rem;
+  }
+}
+
+
+/* Vertically center Lead Capture + Revenue */
+#lead-capture .flex-wrapper,
+#revenue .flex-wrapper {
+  align-items: center;
+  margin-top: 100px; /* offset for stepper */
+  z-index: 10;
+}
+
+/* Make sure sections flow normally */
+#lead-capture,
+#revenue {
+  position: relative !important;
+  top: auto;
+}
+
+
+/* Base sections */
+#lead-capture,
+#revenue,
+#event-costs,
+#review {
+  position: relative;
+  z-index: 10; /* low, behind everything else */
+}
+
+/* Stats toggle */
+#statsToggleWrapper {
+  z-index: 500; /* above sections but below visualizer */
+}
+
+/* Visualizer */
+#global-visualizer-container {
+  z-index: 10; /* mid-level, under lightbox */
+}
+
+/* Lightbox */
+#recommendationLightbox,
+#recommendationLightbox > div {
+  position: fixed;
+  z-index: 100000 !important; /* top floor, always above everything */
+  pointer-events: auto;
+}
+.stepper.rec-phase .step-number {
+  width: 2.7rem;    /* bigger circle */
+  height: 2.7rem;
+  font-size: 1.1rem; /* bigger number inside */
+}
+
+
+
+#visualizer-wrapper {
+  display: none; /* stay invisible at first */
+}
+
+
+
+
+.text-white {
+  color: #ffffff !important;
+}
+.details-container p,
+.details-container ul,
+.details-container li,
+.details-container h3,
+.details-container h4 {
+  color: #ffffff !important;
+}
+
+
+/* 🔥 Override all lightbox/details text to solid white */
+.details-container,
+.details-container * {
+  color: #ffffff !important;
+}
+
+/* Force ONLY the recommendation descriptions to pure white */
+.recommendation-description {
+  color: #ffffff !important;
+}
+
+/* Only the first paragraph right after the card title */
+.recommendation-card h3 + p { color: #ffffff !important; }
+
+
+
+.slider, .slider.round {
+  z-index: 9999;
+  pointer-events: auto; /* Ensure it's clickable */
+}
+
+
+canvas {
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* keep canvas at the back */
+  pointer-events: none; /* make it ignore mouse clicks */
+}
+
+.ui-layer {
+  position: relative;
+  z-index: 10; /* higher than canvas */
+}
+
+#global-visualizer-container {
+
+    z-index: 10;        /* stays behind UI */
+  pointer-events: none; /* let UI capture clicks */
+}
+
+
+
+.ring-label {
+  z-index: 20; /* not 9999 */
+}
+
+
+#statsToggleWrapper,
+.ui-layer {
+  z-index: 100; /* UI floats above */
+}
+
+
+#profitLabel, #costLabel {
+  position: absolute;
+  top: 50%; /* vertical center */
+  right: 20px; /* fixed from container's right edge */
+  transform: translateY(-50%);
+  white-space: nowrap;
+}
+
+
+
+
+#landing {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 50; /* make sure it's above everything else */
+}
+
+#landing button {
+  position: relative; /* ensure the button is above overlays inside landing */
+  z-index: 60;
+}
+
+
+#global-visualizer-container {
+  flex: 1;
+  max-width: 1000px;
+  height: 95vh;       /* scale with viewport height */
+  min-height: 500px;  /* don’t get too tiny */
+  max-height: 900px;  /* don’t grow infinitely */
+  position: relative;
+  margin: auto;       /* centers both horizontally and vertically */
+}
+
+
+#threejs-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: relative;
+}
+
+
+#main-visualizer-wrapper {
+  display: flex;
+  justify-content: center;  /* center everything */
+  align-items: center;
+  gap: 50%;                /* space between left-panel & visualizer */
+  width: 100%;
+  max-width: 1600px;        /* caps total wrapper width */
+  margin: 0 auto;           /* center horizontally */
+  padding: 0 20px;          /* space from viewport edges */
+  aspect-ratio: 1 / 1; /* keeps it square */
+}
+
+
+@media screen and (min-width: 1640px) {
+  #profitLabel, #costLabel {
+    right: -40px;  /* push outward away from the visualizer */
+  }
+}
+
+/* ✅ Mobile full-width override */
+@media (max-width: 768px) {
+   #lightbox-content {
+    width: 100% !important;   /* full width */
+    max-width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important; /* remove rounding for edge-to-edge */
+    height: 100% !important;  /* take full height too */
+  }
+
+   #lightbox-overlay {
+    padding: 0 !important;
+  }
+
+   #lightbox-close {
+    top: 12px !important;
+    right: 12px !important;
+    z-index: 9999;
+  }
+}
+
+
+@media (max-width: 728px) {
+  /* Force lightbox to cover the entire viewport */
+  #recommendationLightbox > div {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+    padding: 16px !important;
+    box-sizing: border-box;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+  }
+
+  #recommendationLightboxContent {
+    max-height: 100% !important;
+    overflow-y: auto !important;
+    padding-right: 12px;
+    padding-bottom: 20px;
+  }
+
+  /* Keep close button pinned at the top right */
+  #recommendationLightbox button[onclick="closeRecommendationLightbox()"] {
+    position: absolute !important;
+    top: 12px !important;
+    right: 12px !important;
+    z-index: 9999 !important;
+  }
+}
+/* site CSS */
+#global-visualizer-container { position: relative; overflow: visible; }
+
+
+@media screen and (min-width: 1600px) {
+  #profitTankLabel,
+  #costTankLabel {
+    transform: translateX(40px) translateY(0);
+  }
+}
+
+@media screen and (min-width: 1900px) {
+  #profitTankLabel,
+  #costTankLabel {
+    transform: translateX(80px) translateY(0);
+  }
+}
+
+/* Fluid scaling for ultra-wide screens */
+@media (min-width: 1640px) {
+  #landing .max-w-xl {
+    max-width: 100%; /* Keep content centered and not too wide */
+    margin-left: auto;
+    margin-right: 20%;
+    padding-left: 2rem; /* optional: padding from sides */
+    padding-right: 2rem;
+  }
+
+  #landing h1 {
+    font-size: clamp(3rem, 4vw, 6.5rem); /* scales smoothly */
+    line-height: 1.1;
+    max-width: 100%; /* prevent stretching */
+  }
+
+  #landing p {
+    font-size: clamp(1rem, 1.2vw, 1.5rem);
+    max-width: 100%; /* keeps paragraphs aligned */
+    margin: 0 auto;
+  }
+
+  #landing #startButton {
+    padding-left: 3.5rem;
+    padding-right: 3.5rem;
+    padding-top: 1.2rem;
+    padding-bottom: 1.2rem;
+    font-size: clamp(1rem, 1.1vw, 1.25rem);
+  }
+
+  /* Keep consistent spacing between text elements */
+  #landing .space-y-6 > * + * {
+    margin-top: 1.5rem;
+  }
+}
+
+
+.recommendation-wrapper .stepper {
+  max-width: 100%; /* force same cap */
+  margin: 0 auto;  /* center align */
+  padding-inline: 1rem; /* match card’s padding */
+}
+
+
+
+
+/* Grow the lightbox (container + text) with screen size */
+#recommendationLightbox > div {
+  /* let width grow but never exceed viewport */
+  width: min(92vw, 1640px);
+  max-height: min(90vh, 1800px);
+  /* scale text smoothly with viewport */
+  font-size: clamp(14px, 1.1vw, 20px);
+  /* remove pixel zooming */
+  transform: none;
+}
+
+/* Optional: only kick the wider sizing in on big screens */
+@media screen and (min-width: 1640px) {
+  #recommendationLightbox > div {
+    width: min(92vw, 1700px);
+    font-size: clamp(16px, 1.2vw, 22px);
+  }
+}
+
+@media (max-width: 640px) {
+  #recommendationLightbox > div {
+    width: 100vw !important;   /* force full screen width */
+    height: 100vh !important;  /* full height too */
+    max-width: none !important;
+    border-radius: 0 !important; /* remove rounding on edges */
+  }
+}
+
+
+@media (max-width: 640px) {
+  #recommendationLightbox {
+    width: 100vw !important;   /* force full screen width */
+    height: 100vh !important;  /* full height too */
+    max-width: none !important;
+    border-radius: 0 !important; /* remove rounding on edges */
+  }
+}
+
+
+@media (max-width: 1640px) {
+ #main-visualizer-wrapper {
+    height: 90vh;
+  }
+}
+
+
+/* Laptop / smaller desktops */
+@media (max-width: 1640px) {
+  #final-page .stepper-section {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 50;
+  }
+
+  #final-page {
+    padding-top: 10rem; /* only pushes final page down */
+  }
+}
+
+
+
+
+#recommendationLightbox button[onclick="closeRecommendationLightbox()"] {
+  position: absolute !important;
+  top: 12px !important;
+  right: 12px !important;
+  z-index: 999999999 !important; /* higher than overlay & content */
+  pointer-events: auto !important;
+}
+
+
+
+/* 🔹 Mobile optimization for final metrics */
+@media (max-width: 768px) {
+  #metric-final {
+    grid-template-columns: repeat(3, minmax(0, 1fr)); /* keep 3 columns */
+    gap: 0.75rem; /* add spacing between cells */
+    font-size: 0.8rem; /* slightly smaller font */
+  }
+
+  #metric-final div {
+    word-break: break-word;
+    padding: 2px 2px; /* little breathing space inside */
+  }
+}
+
+
+
+@media (max-width: 768px) {
+  .rec-step .step-number {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.875rem;
+  }
+
+  #recommendation-card-container .grid.grid-cols-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 800px) {
+  .page-content {
+    padding-top: 0 !important; /* remove extra top padding */
+  }
+
+  #lead-capture .flex-wrapper,
+  #revenue .flex-wrapper {
+    margin-top: 0 !important; /* remove mobile push */
+  }
+}
+
+@media (max-width: 1185px) {
+  #main-visualizer-wrapper {
+    flex-direction: column !important;
+    align-items: flex-start !important; /* left-aligned content */
+    gap: 0 !important;
+    width: 100% !important;
+  }
+}
+
+
+#kolo1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* pushes everything to the top */
+}
+
+/* Ultra-wide screen scaling */
+@media (min-width: 1640px) {
+  /* Scale landing text */
+  #landing h1 {
+    font-size: clamp(4rem, 5vw, 7rem); /* bigger, readable */
+    line-height: 1.1;                  /* keeps it tight and bold */
+  }
+
+  #landing p {
+    font-size: clamp(1.25rem, 1.5vw, 1.75rem);
+  }
+
+  #landing #startButton {
+    font-size: clamp(1.25rem, 1.2vw, 1.5rem);
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+  }
+
+  /* Scale visualizer container */
+  #global-visualizer-container {
+    transform: scale(1.3); /* makes the visualizer bigger */
+    transform-origin: center center; /* keep it centered */
+  }
+
+  #main-visualizer-wrapper {
+    transform: scale(1.8); /* makes the visualizer bigger */
+    transform-origin: center center; /* keep it centered */
+  }
+  #kolo1 {
+    transform: scale(1.49); /* makes the visualizer bigger */
+    transform-origin: center center; /* keep it centered */
+  }
+
+ #recommendationLightbox > div{
+    transform: scale(3.0); /* makes the visualizer bigger */
+    transform-origin: center center; /* keep it centered */
+    max-height: 780px;
+  }
+
+}
+
+
+
+
+/* Default (laptops & desktops) */
+#kolo {
+  max-width: 1200px;
+}
+
+/* Very large screens */
+@media (min-width: 2560px) {
+  #kolo {
+    max-width: 2000px;
+  }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 3840px) {
+  #kolo {
+    max-width: 2400px;
+  }
+}
+
+
+
+/* Ultra-wide screen scaling */
+@media (max-width: 1640px) {
+  #main-visualizer-wrapper {
+position: absolute;
+  }
+}
+
+#kolo {
+  align-items: flex-start; /* keep left and right panels top-aligned */
+}
+
+#recommendation-card-container {
+  border: 1px solid rgba(255, 255, 255, 0.3); /* thin white outline */
+  border-radius: 0.75rem;                     /* rounded corners */
+  overflow: hidden;
+}
+
+
+@media (max-width: 768px) {
+  #d1 {
+    height: auto !important; /* let it grow */
+    overflow-y: auto; /* scroll if too tall */
+
+    justify-content:flex-start;
+  }
+}
+/* Laptop screens: slightly scale down left section and visualizer */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  /* Left section wrapper */
+  #kolo1 {
+    transform: scale(0.99);       /* shrink it a bit */
+    transform-origin: top left;    /* keep it aligned top-left */
+  }
+
+  /* Main visualizer wrapper (optional, if you want it scaled too) */
+  #main-visualizer-wrapper {
+    transform: scale(0.99);
+    transform-origin: top left;
+  }
+
+  /* Global visualizer container (optional if needed) */
+  #global-visualizer-container {
+    transform: scale(0.99);
+    transform-origin: top left;
+  }
+}
+
