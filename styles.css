@@ -1387,3 +1387,13 @@ position: absolute;
   }
 }
 
+/* Fluidly downscale left section from 1640px downward to avoid cutoff */
+@media (max-width: 1640px) {
+  #kolo1 {
+    /* 1.00 at 1640px -> ~0.88 at 1024px; smooth, clamped range */
+    --left-scale: clamp(0.88, calc(((100vw - 1024px) / 616) * 0.12 + 0.88), 1);
+    transform: scale(var(--left-scale));
+    transform-origin: top left;
+  }
+}
+
