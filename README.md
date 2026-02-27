@@ -1,10 +1,39 @@
-- 👋 Hi, I’m @Seyi-olofin
-- 👀 I’m interested in ...coding 
-- 🌱 I’m currently learning ...python
-- 💞️ I’m looking to collaborate on ...AI
-- 📫 How to reach me ...08107625879
+# Hi, I'm Olofintuyi Blessing 👋
 
-<!---
-Seyi-olofin/Seyi-olofin is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+Senior UI/UX Designer & Product Engineer  
+I design and build conversion-focused, scalable digital products.
+
+---
+
+## 🚀 What I Do
+- UI/UX Design (Figma, Prototyping, Branding)
+- Frontend Development (Next.js, React, TypeScript)
+- Backend Architecture (Supabase, PostgreSQL, RLS)
+- AI Product Systems & Automation
+- SaaS & Marketplace Infrastructure
+
+---
+
+## 🧠 Currently Exploring
+- Agentic AI Systems
+- LLM Orchestration
+- System Architecture
+- Product Strategy
+
+---
+
+## 🛠 Tech Stack
+Next.js | React | TypeScript | Supabase | PostgreSQL | Vercel | Tailwind | GSAP
+
+---
+
+## 📌 Featured Projects
+🔹 SPC Markets – Wholesale Marketplace Infrastructure  
+🔹 Ali Recovery – Premium Roadside Assistance Platform  
+🔹 POS Multi-App Architecture (Admin, Staff, Manager, Public App)
+
+---
+
+## 📫 Connect With Me
+Portfolio: behance.net/seyiolofin  
+Dribbble: dribbble.com/seyigraffixs
