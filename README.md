@@ -37,3 +37,4 @@ Next.js | React | TypeScript | Supabase | PostgreSQL | Vercel | Tailwind | GSAP
 ## 📫 Connect With Me
 Portfolio: behance.net/seyiolofin  
 Dribbble: dribbble.com/seyigraffixs
+https://seyigraffix.netlify.app/
