@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ROI Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- ✅ AlpineJS -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  
+  <!-- ✅ PDF Export Libs -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body class="bg-black text-white font-outfit">
+
+
+<section id="landing" class="relative min-h-screen flex 1 items-center justify-center px-6 text-left overflow-hidden">
+  
+  <!-- 🎥 Desktop Video BG -->
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    class="hidden md:block absolute top-0 left-0 w-full h-full object-cover z-0">
+    <source src="assets/videos/landing-page.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- 🖼️ Mobile Static BG -->
+  <img
+    src="assets/mobile.jpg"
+    alt="Mobile Background"
+    class="block md:hidden absolute top-0 left-0 w-full h-full object-cover object-center z-0" />
+
+  <!-- 🌑 Mobile faint overlay (sits above the image, below content) -->
+  <div class="absolute inset-0 bg-black/80 z-[5] md:hidden"></div>
+
+  <!-- 💬 Content -->
+  <div class="relative z-10 max-w-screen-xl w-full flex flex-col md:flex-row items-center justify-center md:justify-between gap-16 py-20">
+
+    <div class="max-w-xl md:pl-10 text-center md:text-left space-y-6 w-full">
+      <h1 class="text-5xl sm:text-6xl font-bold leading-tight tracking-tight text-white max-w-[60%] mx-auto md:max-w-none">
+        Visualize Your <span class="text-[#49E6E5]">ROI</span><br />
+        in Stunning 3D
+      </h1>
+
+      <p class="text-lg sm:text-xl text-white/90 leading-relaxed max-w-[60%] mx-auto md:max-w-none">
+        We'll help you convert booth traffic into <br />
+        <strong>10+ booked demos</strong>.
+      </p>
+
+      <p class="text-base sm:text-lg font-bold text-orange-500 max-w-[60%] mx-auto md:max-w-none">
+        Or we'll donate $100 to Girls Who Code.
+      </p>
+
+      <div class="flex justify-center md:justify-start">
+        <button
+          id="startButton"
+          class="mt-6 px-12 py-5 pl-14 border-0 border-white text-white bg-orange-500 rounded-full text-lg shadow hover:bg-orange-600 transition-all duration-300 font-semibold">
+          Start Calculating
+        </button>
+      </div>
+    </div>
+
+
+    <!-- Mobile Notice -->
+<div id="mobileVisualizerNotice" class="block md:hidden text-center text-xs text-white/70 mt-2 px-4">
+  For the best 3D Visualizer experience, please use a desktop or laptop.  
+  On mobile, you can toggle the visualizer below, but performance might be limited.
+</div>
+
+  </div>
+</section>
+
+
+<div id="main-visualizer-wrapper"
+     class="flex justify-center min-h-screen w-full px-20 gap-10 xl:gap-16 2xl:gap-20">
+
+  <!-- Duo Card Wrapper -->
+  <div id="kolo" class="flex w-full items-start gap-6 xl:gap-12 2xl:gap-70">
+    <!-- LEFT: All Sections -->
+    <div id="kolo1" class="flex-1">
+      <!-- Your sections go here -->
+     <section id="lead-capture" class="section hidden">
+  <div class="flex flex-col items-center justify-center w-full min-h-[80vh] px-4 pt-3">
+
+    <!-- LEFT SIDE: Sliders + Stepper -->
+       <div class="w-full flex flex-col justify-start items-start space-y-3">
+
+      <!-- Step Tracker -->
+      <div class="w-full pb-1 stepper-fixed top-0 z-20">
+        <div class="flex justify-between items-center text-white/90 text-sm mb-1">
+          <div class="step active-step"><div class="step-number">1</div> Lead Capture</div>
+          <div class="step"><div class="step-number">2</div> Revenue</div>
+          <div class="step"><div class="step-number">3</div> Event Costs</div>
+          <div class="step"><div class="step-number">4</div> Review</div>
+        </div>
+        <div class="h-0.5 bg-white/30"></div>
+      </div>
+
+      <!-- Slider Container -->
+    <div id="d1" class="w-full rounded-xl border border-white/30 bg-transparent p-4 space-y-4 h-[350px] md:h-[550px] mt-3 md:mt-4">
+
+        <h2 class="text-2xl font-bold text-white mb-2">Lead Capture</h2>
+
+        <!-- Expected Leads -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4">
+          <div class="text-base font-medium text-white mb-1">
+            Expected Leads: <span id="expected-leads-stat" style="color: #00FFFB; font-weight: 700;">1000 Leads</span>
+          </div>
+          <input type="range" id="expected-leads" min="1" max="5000" value="1000" class="w-full accent-orange-500">
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>1</span><span>2.5k</span><span>5k</span>
+          </div>
+        </div>
+
+        <!-- Qualified Leads -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="text-base font-medium text-white mb-1">
+            Qualified Leads: <span id="qualified-leads-stat" style="color: #f97316; font-weight: 700;">50%</span>
+          </div>
+          <input type="range" id="qualified-leads" min="0" max="100" value="50" class="w-full accent-orange-500">
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>0%</span><span>50%</span><span>100%</span>
+          </div>
+        </div>
+
+        <!-- Booked Demos -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="text-base font-medium text-white mb-1">
+            Booked Demos: <span id="booked-demos-stat" style="color: #22d3ee; font-weight: 700;">30%</span>
+          </div>
+          <input type="range" id="booked-demos" min="0" max="100" value="30" class="w-full accent-orange-500">
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>0%</span><span>50%</span><span>100%</span>
+          </div>
+        </div>
+
+        <!-- Closed Deals -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="text-base font-medium text-white mb-1">
+            Closed Deals: <span id="closed-deals-stat" style="color: #49E6E5; font-weight: 700;">40%</span>
+          </div>
+          <input type="range" id="closed-deals" min="0" max="100" value="40" class="w-full accent-orange-500">
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>0%</span><span>50%</span><span>100%</span>
+          </div>
+        </div>
+
+      </div> <!-- /slider container -->
+
+      <!-- Buttons -->
+      <div class="flex justify-end mt-1 w-full">
+        <button id="next-button-lead-capture" class="px-6 py-2 rounded-full bg-orange-500 text-white font-semibold hover:bg-orange-600 transition">
+          Next
+        </button>
+      </div>
+
+    </div> <!-- /LEFT -->
+
+
+  </div> <!-- /WRAPPER -->
+       </section>
+
+     <section id="revenue" class="section hidden">
+  <div class="flex flex-col items-center justify-center w-full min-h-[80vh] px-4 pt-3">
+    <!-- LEFT SIDE: Sliders + Stepper -->
+    <div class="w-full flex flex-col justify-start items-start space-y-3 ">
+      
+      <!-- Stepper -->
+      <div class="w-full pb-1 stepper-fixed  top-0 z-20">
+        <div class="flex justify-between items-center text-white/90 text-sm mb-1">
+          <div class="step"><div class="step-number">1</div> Lead Capture</div>
+          <div class="step active-step"><div class="step-number">2</div> Revenue</div>
+          <div class="step"><div class="step-number">3</div> Event Costs</div>
+          <div class="step"><div class="step-number">4</div> Review</div>
+        </div>
+        <div class="h-0.5 bg-white/30"></div>
+      </div>
+
+      <!-- Slider Card -->
+     <div id="d1" class="w-full rounded-xl border border-white/30 bg-transparent p-4 space-y-4 h-[350px] md:h-[550px] mt-3 md:mt-4">
+
+        <h2 class="text-2xl font-bold text-white mb-2">Revenue</h2>
+
+        <!-- SLIDER: Average Deal Size -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="mb-1 text-base font-medium text-white">
+            Average Deal Size: <span id="average-deal-size-stat">1000 USD</span>
+          </div>
+          <input type="range" id="average-deal-size" min="0" max="100000" value="1000"
+                 class="w-full accent-orange-500" />
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>$0</span><span>$50k</span><span>$100k</span>
+          </div>
+        </div>
+
+        <!-- SLIDER: Sales Cycle Length -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="mb-1 text-base font-medium text-white">
+            Sales Cycle Length: <span id="sales-cycle-length-stat">180 Days</span>
+          </div>
+          <input type="range" id="sales-cycle-length" min="0" max="365" value="180"
+                 class="w-full accent-orange-500" />
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>0d</span><span>180d</span><span>365d</span>
+          </div>
+        </div>
+      </div>
+      <!-- /slider card -->
+
+      <!-- Buttons -->
+      <div class="flex justify-between items-center mt-1 w-full">
+        <button id="prev-button-revenue"
+                class="px-6 py-2 rounded-full border border-white/20 text-white bg-black/50 hover:bg-white/10 transition">
+          Previous
+        </button>
+        <button id="next-button-revenue"
+                class="px-6 py-2 rounded-full bg-orange-500 text-white font-semibold hover:bg-orange-600 transition">
+          Next
+        </button>
+      </div>
+    </div>
+    <!-- /LEFT -->
+  </div>
+</section>
+
+<section id="event-costs" class="section hidden">
+  <div class="flex flex-col items-center justify-center w-full min-h-[80vh] px-4 pt-3">
+
+    <!-- LEFT SIDE: Sliders + Stepper -->
+    <div class="w-full flex flex-col justify-start items-start space-y-3">
+      
+      <!-- Step Tracker -->
+      <div class="w-full pb-1 stepper-fixed  top-0 z-20">
+        <div class="flex justify-between items-center text-white/90 text-sm mb-1">
+          <div class="step"><div class="step-number">1</div> Lead Capture</div>
+          <div class="step"><div class="step-number">2</div> Revenue</div>
+          <div class="step active-step"><div class="step-number">3</div> Event Costs</div>
+          <div class="step"><div class="step-number">4</div> Review</div>
+        </div>
+        <div class="h-0.5 bg-white/30"></div>
+      </div>
+      
+      <!-- Slider Container -->
+   <div id="d1" class="w-full rounded-xl border border-white/30 bg-transparent p-4 space-y-4 h-[350px] md:h-[550px] mt-3 md:mt-4">
+
+          <h2 class="text-2xl font-bold text-white mb-2">Event Costs</h2>
+        <!-- Booth Costs -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="text-base font-medium text-white mb-1">
+            Booth Costs: <span id="booth-costs-stat">10000 USD</span>
+          </div>
+          <input type="range" id="booth-costs" min="0" max="10000" value="10000" class="w-full accent-orange-500">
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>$0</span><span>$5k</span><span>$10k</span>
+          </div>
+        </div>
+
+        <!-- Travel Expenses -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="text-base font-medium text-white mb-1">
+            Travel Expenses: <span id="travel-expenses-stat">10000 USD</span>
+          </div>
+          <input type="range" id="travel-expenses" min="0" max="10000" value="10000" class="w-full accent-orange-500">
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>$0</span><span>$5k</span><span>$10k</span>
+          </div>
+        </div>
+
+        <!-- Swag & Materials -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="text-base font-medium text-white mb-1">
+            Swag & Materials: <span id="swag-materials-stat">10000 USD</span>
+          </div>
+          <input type="range" id="swag-materials" min="0" max="10000" value="10000" class="w-full accent-orange-500">
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>$0</span><span>$5k</span><span>$10k</span>
+          </div>
+        </div>
+
+        <!-- Staffing Costs -->
+        <div class="slider-card bg-[#2a150a] rounded-xl p-4 hidden opacity-0 pointer-events-none">
+          <div class="text-base font-medium text-white mb-1">
+            Staffing Costs: <span id="staffing-costs-stat">10000 USD</span>
+          </div>
+          <input type="range" id="staffing-costs" min="0" max="10000" value="10000" class="w-full accent-orange-500">
+          <div class="flex justify-between text-xs text-white/40 mt-1 px-1">
+            <span>$0</span><span>$5k</span><span>$10k</span>
+          </div>
+        </div>
+      </div>
+      <!-- /slider container -->
+
+      <!-- Buttons -->
+      <div class="flex justify-between items-center mt-2 w-full">
+        <button id="prev-button-event-costs" class="px-6 py-2 rounded-full border border-white/20 text-white bg-black/50 hover:bg-white/10 transition">
+          Previous
+        </button>
+        <button id="next-button-event-costs" class="px-6 py-2 rounded-full bg-orange-500 text-white font-semibold hover:bg-orange-600 transition">
+          Next
+        </button>
+      </div>
+
+    </div> <!-- /LEFT -->
+
+  </div> <!-- /WRAPPER -->
+</section>
+
+
+<section id="review" class="section hidden">
+  <div class="flex flex-col items-center justify-center w-full min-h-[80vh] px-4 pt-3">
+
+    <!-- LEFT PANEL: Form -->
+    <div class="w-full flex flex-col items-start justify-start space-y-3 ">
+      
+      <!-- Step Tracker -->
+      <div class="w-full pb-1">
+        <div class="flex justify-between items-center text-white/90 text-sm mb-1">
+          <div class="step"><div class="step-number">1</div> Lead Capture</div>
+          <div class="step"><div class="step-number">2</div> Revenue</div>
+          <div class="step"><div class="step-number">3</div> Event Costs</div>
+          <div class="step active-step"><div class="step-number">4</div> Review</div>
+        </div>
+        <div class="h-0.5 bg-white/30"></div>
+      </div>
+
+      <!-- Form Section -->
+      <div class="w-full rounded-xl border border-white/30 bg-transparent p-4 space-y-5">
+        <h2 class="text-2xl font-bold text-white mb-1">Review Your Details</h2>
+        <p class="text-white/70 text-sm leading-relaxed mb-2">
+          Almost done! Enter your details below so we can deliver your personalized ROI results straight to your inbox.
+        </p>
+
+        <form id="userDetailsForm" class="space-y-5">
+          <!-- Full Name -->
+          <div>
+            <label for="name" class="block text-white font-semibold text-base mb-2">Full Name</label>
+            <input 
+              type="text" 
+              id="name" 
+              required
+              class="p-4 w-full rounded-xl border-2 border-transparent bg-white/10 text-white placeholder-white/40 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+            />
+          </div>
+
+          <!-- Email -->
+          <div>
+            <label for="email" class="block text-white font-semibold text-base mb-2">Email Address</label>
+            <input 
+              type="email" 
+              id="email" 
+              required
+              class="p-4 w-full rounded-xl border-2 border-transparent bg-white/10 text-white placeholder-white/40 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+            />
+          </div>
+
+          <!-- Phone -->
+          <div>
+            <label for="phone" class="block text-white font-semibold text-base mb-2">Phone (Optional)</label>
+            <input 
+              type="tel" 
+              id="phone" 
+              class="p-4 w-full rounded-xl border-2 border-transparent bg-white/10 text-white placeholder-white/40 focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"
+            />
+          </div>
+        </form>
+      </div> <!-- /form box -->
+
+      <!-- Buttons -->
+      <div class="flex flex-col gap-3 mt-2 w-full">
+        <button 
+          type="submit" 
+          form="userDetailsForm"
+          id="submitButton" 
+          class="w-full py-3 bg-orange-500 text-white font-semibold rounded-full hover:bg-orange-600 transition"
+        >
+          Get My Results
+        </button>
+
+        <button 
+          id="prev-button-review" 
+          type="button"
+          class="w-full py-2 text-sm rounded-full border border-white/20 text-white hover:bg-white/10 transition"
+        >
+          Back
+        </button>
+      </div>
+    </div> <!-- /left panel -->
+
+  </div> <!-- /main wrapper -->
+</section>
+
+
+<section id="result-display" class="section hidden">
+  <div class="flex flex-col items-center justify-center w-full min-h-[80vh] px-4 pt-3">
+
+      <!-- Placeholder for NOW snapshot -->
+    <div id="now-snapshot-placeholder" class="w-full h-[360px] bg-transparent hidden"></div>
+
+
+    <!-- LEFT SIDE: Result Card -->
+    <div class="w-full max-w-[500px] flex flex-col justify-start items-start space-y-3 z-10 h-full">
+
+      <!-- Stepper -->
+      <div class="w-full pb-1">
+        <div class="flex justify-between items-center text-white/90 text-sm mb-1">
+          <div class="step completed"><div class="step-number">1</div> Lead Capture</div>
+          <div class="step completed"><div class="step-number">2</div> Revenue</div>
+          <div class="step completed"><div class="step-number">3</div> Event Costs</div>
+          <div class="step active-step"><div class="step-number">4</div> Results</div>
+        </div>
+        <div class="h-0.5 bg-white/30"></div>
+      </div>
+
+      <!-- Scrollable card area -->
+      <div class="overflow-y-auto w-full flex-1">
+        <!-- Result Card -->
+        <div class="bg-[#1F1C21] border border-white/20 rounded-2xl p-6 w-full mb-6">
+          <h2 class="text-white text-3xl font-bold leading-snug mb-3">Here’s Your Results</h2>
+          <p class="text-white/60 text-base leading-snug mb-6">
+            You did good but have some areas to improve in. Click below to see how you could be making more.
+          </p>
+
+          <!-- Metric Table -->
+          <div class="grid grid-cols-3 text-sm text-white/60 border border-white/20 rounded-xl p-5 gap-y-3 bg-[#1F1C21] shadow-md">
+            <div class="text-white/40 font-medium pb-2">Suggested</div>
+            <div class="text-white font-semibold pb-2">Now</div>
+            <div class="text-white/60 font-medium pb-2">Metrics</div>
+
+            <span class="text-white/40">–</span>
+            <span id="netRevenueStat" class="font-semibold text-white">$225,548</span>
+            <span class="text-white/60">Net Revenue</span>
+
+            <span class="text-white/40">–</span>
+            <span id="roiMultipleStat" class="font-semibold text-white">1.6X</span>
+            <span class="text-white/60">ROI Multiple</span>
+
+            <span class="text-white/40">–</span>
+            <span id="demoRateStat" class="font-semibold text-white">40%</span>
+            <span class="text-white/60">Demo Rate</span>
+
+            <span class="text-white/40">–</span>
+            <span id="cplStat" class="font-semibold text-teal-300">$24.5/lead</span>
+            <span class="text-white/60">Cost Per Lead</span>
+
+            <span class="text-white/40">–</span>
+            <span id="velocityStat" class="font-semibold text-teal-300">$1,500/day</span>
+            <span class="text-white/60">Pipeline Velocity</span>
+          </div>
+
+          <button 
+            id="improveResultsBtn" 
+            class="mt-6 w-full py-4 bg-[#49e6e5] text-black font-bold text-lg rounded-xl hover:bg-[#00e6e6] transition-all duration-300"
+          >
+            Improve My Results
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="recommendation-page" class="section hidden">
+  <div class="flex flex-col items-center justify-center w-full min-h-[80vh] px-4 pt-3">
+    
+    <!-- Unified wrapper (same pattern as review/result) -->
+    <div class="w-full flex flex-col items-start justify-start space-y-6 z-10 max-w-[800px] xl:max-w-[1000px] 2xl:max-w-[1200px]">
+        
+      <!-- ✅ Stepper -->
+      <div class="w-full stepper rec-phase">
+        <div class="flex justify-between items-center text-white text-base sm:text-lg mb-2">
+          <div class="step active-step"><div class="step-number">1</div> Lead Capture</div>
+          <div class="step active-step"><div class="step-number">2</div> Revenue</div>
+          <div class="step active-step"><div class="step-number">3</div> Event Costs</div>
+          <div class="step active-step"><div class="step-number">4</div> Final Review</div>
+        </div>
+        <div class="h-0.5 bg-white/30 mt-1"></div>
+      </div>
+
+      <!-- ✅ Recommendation Card -->
+<div id="recommendation-card-container"
+     class="w-full rounded-2xl border border-white/90 bg-[#1F1C21] overflow-hidden shadow-xl">
+  <div class="p-6 sm:p-8">
+          <h2 class="text-xl sm:text-2xl font-bold text-white mb-4">Perfect Your Pitch</h2>
+
+          <!-- Metrics -->
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-white text-xs sm:text-sm">Now:</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-white">$12,000</span>
+          </div>
+          <div class="flex justify-between items-center mb-3">
+            <span class="text-[#49E6E5] text-xs sm:text-sm">Suggested:</span>
+            <span class="text-2xl sm:text-3xl font-extrabold text-[#49E6E5]">$18,000</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ✅ Navigation Buttons -->
+      <div class="flex w-full gap-4">
+        <button id="prev-rec" class="flex-1 px-6 py-3 rounded-full border border-white/30 text-white bg-black/50 hover:bg-white/10 transition text-base font-medium">
+          ← Previous
+        </button>
+        <button id="next-rec" class="flex-1 px-6 py-3 rounded-full bg-[#49E6E5] text-black font-semibold hover:bg-cyan-300 transition text-base">
+          Next →
+        </button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+ <section id="final-page" class="section hidden">
+  <div class="flex flex-col items-center justify-center w-full max-w-screen-lg mx-auto min-h-[80vh] px-4 gap-6">
+
+    <!-- LEFT SIDE: Summary Panel -->
+    <div class="w-full max-w-[500px] flex flex-col items-start justify-start z-10">
+
+      <!-- Stepper -->
+      <div class="mb-6 w-full">
+        <div class="flex justify-between items-center text-[#00FFFB] text-sm">
+          <div class="step"><div class="step-number">1</div> Lead Capture</div>
+          <div class="step"><div class="step-number">2</div> Revenue</div>
+          <div class="step"><div class="step-number">3</div> Event Costs</div>
+          <div class="step active-step">
+            <div class="step-number">4</div>
+            <span class="text-[#00FFFB]">Final Review</span>
+          </div>
+        </div>
+        <div class="h-0.5 bg-white/30 mt-1"></div>
+      </div>
+
+      <!-- Summary Box -->
+      <div class="bg-[#1F1C21] rounded-2xl w-full shadow-xl overflow-hidden">
+        <img src="assets/logo.png" class="w-full h-40 object-cover" alt="Event Banner" />
+
+        <div class="px-5 py-5">
+          <h2 class="text-xl font-bold leading-snug mb-3 text-white">
+            Want This Done By Your Next Event?
+          </h2>
+          <p class="text-white/80 text-sm mb-5 leading-relaxed">
+            If you want help getting these results at your next event, we can make them real.
+            <span class="font-bold text-white">Or we'll donate $100 to Girls Who Code.</span><br />
+            Book a (free) 15-min Visual Audit — only 15 per week.
+          </p>
+
+          <!-- CTA -->
+          <a href="https://calendly.com/justinweiss/immersionchat?month=2025-07" target="_blank"
+            class="block text-center bg-[#49E6E5] text-black font-bold py-3 px-5 rounded-full mb-6 hover:bg-[#00e6e6] transition text-base">
+            Unlock These Results →
+          </a>
+
+          <!-- Metrics Table -->
+          <div id="metric-final" class="grid grid-cols-3 text-base text-white border border-white/10 rounded-xl p-4 gap-y-3 mb-4">
+            <div class="text-white/60 font-semibold pb-2">Metric</div>
+            <div class="text-white font-semibold pb-2">Now</div>
+            <div class="text-[#00FFFB] font-semibold pb-2">Suggested</div>
+
+            <div class="text-white/60">Net Revenue</div>
+            <div id="currentNetRevenue" class="text-white font-bold">$215,000</div>
+            <div id="summaryNetRevenue" class="text-[#00FFFB] font-bold">$225,548</div>
+
+            <div class="text-white/60">ROI Multiple</div>
+            <div id="currentROIMultiple" class="text-white font-bold">1.2X</div>
+            <div id="summaryROIMultiple" class="text-[#00FFFB] font-bold">1.6X</div>
+
+            <div class="text-white/60">Demo Rate</div>
+            <div id="currentDemoRate" class="text-white font-bold">30%</div>
+            <div id="summaryDemoRate" class="text-[#00FFFB] font-bold">40%</div>
+
+            <div class="text-white/60">Cost / Lead</div>
+            <div id="currentCostPerLead" class="text-white font-bold">$30.00</div>
+            <div id="summaryCostPerLead" class="text-[#00FFFB] font-bold">$24.50</div>
+
+            <div class="text-white/60">Pipeline Velocity</div>
+            <div id="currentPipelineVelocity" class="text-white font-bold">$1,100/day</div>
+            <div id="summaryPipelineVelocity" class="text-[#00FFFB] font-bold">$1,500/day</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="w-full flex justify-start mt-6">
+        <div class="flex gap-4 w-full">
+          <button id="retakeQuizBtn"
+            class="flex-1 flex flex-col items-center border border-white/30 rounded-lg px-3 py-2 hover:text-[#49E6E5] hover:border-[#00FFFB] transition text-xs text-white">
+            <img src="assets/02_Retake.png" class="w-5 h-5 opacity-80 mb-1" alt="Retake Quiz" />
+            <span class="font-medium">Retake</span>
+          </button>
+
+          <button id="shareResultsBtn"
+            class="flex-1 flex flex-col items-center border border-white/30 rounded-lg px-3 py-2 hover:text-[#49E6E5] hover:border-[#00FFFB] transition text-xs text-white">
+            <img src="assets/01_ShareArrow.png" class="w-5 h-5 opacity-80 mb-1" alt="Share" />
+            <span class="font-medium">Share</span>
+          </button>
+
+          <button id="downloadPdfBtn"
+            class="flex-1 flex flex-col items-center border border-white/30 rounded-lg px-3 py-2 hover:text-[#49E6E5] hover:border-[#00FFFB] transition text-xs text-white">
+            <img src="assets/03_Download.png" class="w-5 h-5 opacity-80 mb-1" alt="Download" />
+            <span class="font-medium">Download</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- PDF Theme Toggle -->
+      <div class="mt-4 flex items-center text-xs text-white/80 gap-3">
+        <span class="text-white/60">PDF Dark Mode</span>
+        <label class="relative inline-flex items-center cursor-pointer">
+          <input type="checkbox" id="pdfThemeToggle" class="sr-only peer" checked>
+          <div class="w-11 h-6 bg-gray-400 peer-focus:outline-none rounded-full peer peer-checked:bg-orange-500 transition-colors duration-300 ease-in-out"></div>
+          <div class="absolute left-0.5 top-0.5 w-5 h-5 bg-white rounded-full shadow-md transition-all duration-300 transform peer-checked:translate-x-5"></div>
+        </label>
+      </div>
+    </div>
+  </div>
+</section>
+
+ </div> 
+
+     <!-- RIGHT: Visualizer -->
+    <div id="global-visualizer-container"
+         class="hidden md:flex flex-1 items-center justify-center relative">
+      <canvas id="threejs-canvas" class="w-full h-full absolute inset-0"></canvas>
+
+      <!-- Stats Toggle -->
+      <div id="statsToggleWrapper"
+           class="absolute bottom-5 right-5 z-20 pointer-events-auto flex items-center gap-3">
+        <label for="toggleLabelsCheckbox"
+               class="flex items-center gap-3 bg-black/30 px-4 py-2 rounded-full text-sm cursor-pointer shadow-md">
+          <span class="text-white font-medium">Stats</span>
+          <div class="relative">
+            <input type="checkbox" id="toggleLabelsCheckbox" class="sr-only peer" />
+            <div class="w-11 h-6 bg-gray-600 rounded-full peer-checked:bg-orange-500 transition-colors duration-300"></div>
+            <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
+          </div>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-2 rounded shadow hidden z-50 text-sm font-medium">
+  Toast message here.
+  </div>
+
+
+<div id="recommendationLightbox" 
+     class="fixed inset-0 bg-[#0b0b0a]/70 backdrop-blur-md hidden z-50 flex items-center justify-center">
+  
+  <!-- Full screen on mobile, max-width box on desktop -->
+<div class="bg-[#0b0b0a]/80 text-white p-0 md:p-6 rounded-none md:rounded-xl w-full h-full md:h-auto md:max-w-4xl lg:max-w-6xl 2xl:max-w-[90%] relative overflow-y-auto">
+
+    <!-- Close button -->
+    <button onclick="closeRecommendationLightbox()" aria-label="Close recommendation"
+            class="absolute top-4 right-5 z-50" 
+            style="background:transparent;border:none;padding:0;">
+      <span style="display:block;width:40px;height:40px;border-radius:10px;
+                   background:rgba(255,255,255,0.03);
+                   display:grid;place-items:center;
+                   border:1px solid rgba(255,255,255,0.06);">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" 
+             stroke="currentColor" stroke-width="2" 
+             style="color:rgba(255,255,255,0.85);">
+          <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </button>
+
+    <!-- Content -->
+    <div id="recommendationLightboxContent" class="w-full h-full md:h-auto overflow-y-auto"></div>
+  </div>
+</div>
+
+
+
+<!-- Share Card -->
+<!-- SINGLE CENTERED SHARE CARD -->
+<div id="shareCard" class="hidden fixed inset-0 flex items-center justify-center bg-black/70 z-50">
+  <div class="relative bg-white rounded-2xl shadow-2xl p-6 w-[320px] max-w-[90%] text-center backdrop-blur-sm">
+    
+    <!-- Close button -->
+    <button id="closeShareCard" class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 transition text-xl font-bold">
+      ✕
+    </button>
+
+    <h3 class="text-lg font-semibold mb-5 text-gray-900">🔗 Share your ROI</h3>
+    
+    <div class="flex flex-col gap-3">
+      <a id="twitterShare" target="_blank"
+         class="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-blue-500 text-white font-medium hover:bg-blue-600 transition-shadow shadow-md">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M22.46 6c-.77.35-1.6.59-2.46.69a4.28 4.28 0 001.88-2.36 8.47 8.47 0 01-2.7 1.03 4.23 4.23 0 00-7.2 3.86 12 12 0 01-8.7-4.4 4.23 4.23 0 001.31 5.65 4.2 4.2 0 01-1.92-.53v.05a4.24 4.24 0 003.39 4.15 4.3 4.3 0 01-1.9.07 4.24 4.24 0 003.95 2.93A8.5 8.5 0 013 18.57a11.94 11.94 0 006.29 1.84c7.55 0 11.68-6.26 11.68-11.68 0-.18 0-.36-.01-.53A8.3 8.3 0 0022.46 6z"/>
+        </svg>
+        Share on Twitter
+      </a>
+
+      <a id="linkedinShare" target="_blank"
+         class="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-blue-700 text-white font-medium hover:bg-blue-800 transition-shadow shadow-md">
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M19 0h-14c-2.76 0-5 2.24-5 5v14c0 2.76 2.24 5 5 5h14c2.76 0 5-2.24 5-5v-14c0-2.76-2.24-5-5-5zm-11 19h-3v-9h3v9zm-1.5-10.29c-.97 0-1.75-.79-1.75-1.75s.78-1.75 1.75-1.75 1.75.79 1.75 1.75-.78 1.75-1.75 1.75zm13.5 10.29h-3v-4.5c0-1.11-.89-2-2-2s-2 .89-2 2v4.5h-3v-9h3v1.5c.42-.83 1.38-1.5 2.5-1.5 1.93 0 3.5 1.57 3.5 3.5v5z"/>
+        </svg>
+        Share on LinkedIn
+      </a>
+
+      <button id="copyShare"
+         class="flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-800 font-medium hover:bg-gray-200 transition-shadow shadow-md">
+        📋 Copy Link
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+</body>
+  <!-- JavaScript Files -->
+<script type="module" src="/src/js/ringVisualizer.js"></script>
+<script type="module" src="/src/js/main.js"></script>
+
+</html>
+
